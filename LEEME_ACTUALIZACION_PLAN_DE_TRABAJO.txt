@@ -1,0 +1,63 @@
+ALTIVIA HH CONTROL — VERSIÓN DE 3 ARCHIVOS (Python + Streamlit + SQLite)
+============================================================================
+
+ARCHIVOS QUE DEBES SUBIR A GITHUB:
+  1. app.py
+  2. requirements.txt
+  3. LEEME_ACTUALIZACION_PLAN_DE_TRABAJO.txt  (opcional en la publicación)
+
+PASOS PARA PUBLICAR EN STREAMLIT COMMUNITY CLOUD
+1) Crea un repositorio PRIVADO en github.com (o usa uno existente).
+2) Sube app.py y requirements.txt a la raíz de ese repositorio.
+3) En https://share.streamlit.io/ inicia sesión con GitHub.
+4) Haz clic en Create app / Deploy app, escoge tu repositorio y la rama.
+5) En Main file path coloca: app.py
+6) Publica y espera a que Streamlit instale automáticamente requirements.txt.
+7) RECOMENDADO: en Advanced settings > Secrets define una clave de activación:
+   ADMIN_SETUP_KEY = "UNA_CLAVE_DE_ACTIVACION_LARGA_Y_PRIVADA"
+   No pongas esta clave en GitHub. El alta inicial pedirá esta clave.
+8) Al ingresar por primera vez, CREA el usuario administrador. Usa una contraseña
+   única, de al menos 12 caracteres, antes de compartir el enlace con terceros.
+   Si no configuras ADMIN_SETUP_KEY, cualquier visitante podría registrar el
+   primer administrador antes que tú, especialmente tras pérdida de datos.
+
+EJECUCIÓN EN TU PC (OPCIONAL):
+  pip install -r requirements.txt
+  streamlit run app.py
+
+DATOS: se crea automáticamente un archivo altivia_hh.db al ejecutar la app.
+- En tu PC: queda guardado mientras no lo borres.
+- En Streamlit Community Cloud: el archivo local NO ES PERSISTENTE/GARANTIZADO.
+  Puede borrarse tras reinicios, suspensión, actualizaciones o redeploy.
+- GitHub guarda CÓDIGO, no las actualizaciones de la base de datos de la app.
+- NO subas altivia_hh.db a GitHub, porque contiene información confidencial.
+- Desde la sección «Respaldo y restauración», descarga periódicamente un .db
+  y podrás restaurarlo desde esa misma sección, con los demás usuarios fuera.
+- AVISO: si se borra la base en la nube ANTES DE RESPALDARLA, no se pueden
+  recuperar los registros perdidos desde el código del repositorio.
+
+FUNCIONES INCLUIDAS (adaptadas de la versión v8 enviada):
+- Inicialización de administrador, login, permisos por rol y contraseñas hash.
+- Centro gerencial con filtros por proyecto y fechas, métricas y gráfico.
+- Registro de HH por fecha, proyecto y EDT (cuartos de hora; máximo 12 HH/día).
+- Historial y reenvío de registros observados.
+- Aprobaciones / observaciones / rechazos (sin autoaprobación).
+- HH por profesional y desglose por actividad.
+- Presupuestos y consumos de HH por actividad EDT.
+- Proyectos con supervisor, estatus, edición y alta de actividades.
+- Usuarios, roles, tarifas estándar y asignaciones.
+- Importar libro Excel «Estimado de Costos» de la matriz EDT v8.
+- Cierre de liquidaciones (congelación de tarifa, corte, exportación XLSX/PDF).
+- Auditoría y copias de seguridad con descarga/restauración SQLite.
+
+LIMITACIONES TEMPORALES / SEGURIDAD:
+Esta es una versión PILOTO. No se debe usar como aplicación de producción para
+información corporativa ni como fuente única para pagos hasta conectar un
+almacenamiento EXTERNO persistente con backups automáticos y probar roles,
+seguridad, auditoría y conciliación de datos. SQLite es una base de datos
+válida para prototipos; NO hace que el disco temporal de Streamlit Cloud sea
+persistente. Tampoco hay recuperación automática de contraseñas ni SSO.
+
+Para una segunda fase se podrá integrar SharePoint, OneDrive, Google Drive,
+PostgreSQL u otro almacenamiento, manteniendo Python y Streamlit en el frente.
+La integración externa no está implementada en esta entrega.

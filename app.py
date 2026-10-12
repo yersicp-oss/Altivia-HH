@@ -564,7 +564,7 @@ elif page=='Liquidaciones':
     cutoff=st.date_input('Fecha de corte',date.today());workers=all_rows("SELECT id,name FROM users WHERE role IN ('trabajador','supervisor','admin') AND active=1 ORDER BY name")
     candidates=all_rows('''SELECT us.id,us.name,COUNT(e.id) records,COALESCE(SUM(e.quarters),0) quarters,r.rate_cents
         FROM users us JOIN entries e ON e.user_id=us.id LEFT JOIN rates r ON r.user_id=us.id
-        WHERE e.state='aprobado' AND e.liquidation_id IS NULL AND e.work_date<=:cutoff AND e.date(approval_at)<=:cutoff
+        WHERE e.state='aprobado' AND e.liquidation_id IS NULL AND e.work_date<=:cutoff AND date(e.approval_at)<=:cutoff
         GROUP BY us.id,r.rate_cents ORDER BY us.name''',{'cutoff':cutoff})
     st.subheader('HH listas para liquidar')
     st.dataframe(pd.DataFrame([dict(Trabajador=x['name'],Registros=x['records'],HH=x['quarters']/4,Tarifa=money(x['rate_cents']) if x['rate_cents'] is not None else 'SIN TARIFA',Importe=money(cents_for_quarters(x['quarters'],x['rate_cents'])) if x['rate_cents'] is not None else '-') for x in candidates]),hide_index=True,use_container_width=True)
